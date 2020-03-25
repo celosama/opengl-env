@@ -11,18 +11,7 @@ using namespace std;
 
 int main() {
   GLFWwindow* pWindow = createGLFWContext();
-
-  if (pWindow == NULL) {
-    cerr << "GLFW: failed to initialize GLFW context" << endl;
-    glfwTerminate();
-    return 1;
-  }
-
-  if (!createGLEWContext()) {
-    cerr << "GLEW: failed to initialize GLEW context" << endl;
-    glfwTerminate();
-    return 1;
-  }
+  initializeGLEW();
 
   glfwSetKeyCallback(pWindow, onKey);
 
@@ -36,8 +25,9 @@ int main() {
     glfwSwapBuffers(pWindow);
   }
 
+  glfwDestroyWindow(pWindow);
   clog << "GLFW: window terminated" << endl;
 
   glfwTerminate();
-  return 0;
+  exit(EXIT_SUCCESS);
 }

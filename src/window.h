@@ -9,4 +9,4 @@ const int gWindowWidth = 800;
 const int gWindowHeight = 600;
 
 GLFWwindow* createGLFWContext();
-bool createGLEWContext();
+void initializeGLEW();

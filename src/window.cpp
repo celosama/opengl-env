@@ -8,9 +8,9 @@ const char* APP_TITLE = "OpenGL Demo";
 
 GLFWwindow* createGLFWContext() {
   if (!glfwInit()) {
-    cerr << "GLFW: failed to initialize" << endl;
-
-    return NULL;
+    cerr << "GLFW: failed to initialize GLFW context" << endl;
+    glfwTerminate();
+    exit(EXIT_FAILURE);
   }
 
   clog << "GLFW: initialized" << endl;
@@ -24,8 +24,7 @@ GLFWwindow* createGLFWContext() {
   if (pWindow == NULL) {
     cerr << "GLFW: failed to create window" << endl;
     glfwTerminate();
-
-    return NULL;
+    exit(EXIT_FAILURE);
   }
 
   clog << "GLFW: window created" << endl;
@@ -35,14 +34,11 @@ GLFWwindow* createGLFWContext() {
   return pWindow;
 }
 
-bool createGLEWContext() {
+void initializeGLEW() {
   glewExperimental = GL_TRUE;
   if (glewInit() != GLEW_OK) {
     cerr << "GLEW: failed to initialize" << endl;
     glfwTerminate();
-
-    return false;
+    exit(EXIT_FAILURE);
   }
-
-  return true;
 }
