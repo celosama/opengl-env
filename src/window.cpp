@@ -69,3 +69,10 @@ void showFPS(GLFWwindow* window) {
 
   frameCount++;
 }
+
+void shutdown(GLFWwindow* window) {
+  glfwDestroyWindow(window);
+  clog << "GLFW: window terminated" << endl;
+
+  glfwTerminate();
+}

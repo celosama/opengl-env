@@ -24,9 +24,6 @@ int main() {
     glfwSwapBuffers(pWindow);
   }
 
-  glfwDestroyWindow(pWindow);
-  clog << "GLFW: window terminated" << endl;
-
-  glfwTerminate();
+  shutdown(pWindow);
   exit(EXIT_SUCCESS);
 }
