@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 
 #include "window.h"
 
@@ -30,6 +31,7 @@ GLFWwindow* createGLFWContext() {
   clog << "GLFW: window created" << endl;
 
   glfwMakeContextCurrent(pWindow);
+  glClearColor(0.23f, 0.38f, 0.47f, 1.0f);
 
   return pWindow;
 }
@@ -41,4 +43,29 @@ void initializeGLEW() {
     glfwTerminate();
     exit(EXIT_FAILURE);
   }
+}
+
+void showFPS(GLFWwindow* window) {
+  static double previousSeconds = 0.0;
+  static int frameCount = 0;
+  double elapsedSeconds;
+  double currentSeconds = glfwGetTime();
+
+  elapsedSeconds = currentSeconds - previousSeconds;
+
+  if (elapsedSeconds > 0.25) {
+    previousSeconds = currentSeconds;
+    double fps = (double) frameCount / elapsedSeconds;
+    double msPerFrame = 1000.0 / fps;
+
+    ostringstream outs;
+    outs.precision(2);
+    outs << fixed << APP_TITLE << " | FPS: " << fps << " | Frame time: " << msPerFrame << " (ms)";
+
+    glfwSetWindowTitle(window, outs.str().c_str());
+
+    frameCount = 0;
+  }
+
+  frameCount++;
 }

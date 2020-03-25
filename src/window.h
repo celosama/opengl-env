@@ -10,3 +10,4 @@ const int gWindowHeight = 600;
 
 GLFWwindow* createGLFWContext();
 void initializeGLEW();
+void showFPS(GLFWwindow* window);
