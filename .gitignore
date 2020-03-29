@@ -27,3 +27,6 @@
 
 # IDE
 .vscode/
+
+# Build folder
+build/
