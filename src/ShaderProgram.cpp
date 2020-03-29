@@ -7,7 +7,6 @@ using namespace std;
 
 ShaderProgram::ShaderProgram() 
   : mProgram(0) {
-
 }
 
 ShaderProgram::~ShaderProgram() {
@@ -51,22 +50,22 @@ void ShaderProgram::use() {
 }
 
 string ShaderProgram::fileToString(const string& filename) {
-  	stringstream ss;
-    ifstream file;
+  stringstream ss;
+  ifstream file;
 
-    try {
-      file.open(filename, ios::in);
+  try {
+    file.open(filename, ios::in);
 
-      if (!file.fail()) {
-        ss << file.rdbuf();
-      }
-
-      file.close();
-    } catch(exception ex) {
-      cerr << "Error reading shader filename" << endl;
+    if (!file.fail()) {
+      ss << file.rdbuf();
     }
 
-    return ss.str();
+    file.close();
+  } catch(exception ex) {
+    cerr << "Error reading shader filename" << endl;
+  }
+
+  return ss.str();
 }
 
 void ShaderProgram::checkCompileErrors(GLuint shader, ShaderType type) {
