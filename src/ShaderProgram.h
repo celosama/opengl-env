@@ -23,5 +23,5 @@ class ShaderProgram {
     string fileToString(const string& filename);
     void checkCompileErrors(GLuint shader, ShaderType type);
 
-    GLuint mHandle;
+    GLuint mProgram;
 };

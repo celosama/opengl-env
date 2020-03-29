@@ -6,12 +6,12 @@
 using namespace std;
 
 ShaderProgram::ShaderProgram() 
-  : mHandle(0) {
+  : mProgram(0) {
 
 }
 
 ShaderProgram::~ShaderProgram() {
-  glDeleteProgram(mHandle);
+  glDeleteProgram(mProgram);
 }
 
 bool ShaderProgram::loadShaders(const char* vsFilename, const char* fsFilename) {
@@ -32,11 +32,11 @@ bool ShaderProgram::loadShaders(const char* vsFilename, const char* fsFilename) 
   glCompileShader(fs);
   checkCompileErrors(vs, FRAGMENT);
 
-  mHandle = glCreateProgram();
-  glAttachShader(mHandle, vs);
-  glAttachShader(mHandle, fs);
-  glLinkProgram(mHandle);
-  checkCompileErrors(mHandle, PROGRAM);
+  mProgram = glCreateProgram();
+  glAttachShader(mProgram, vs);
+  glAttachShader(mProgram, fs);
+  glLinkProgram(mProgram);
+  checkCompileErrors(mProgram, PROGRAM);
 
   glDeleteShader(vs);
   glDeleteShader(fs);
@@ -45,8 +45,8 @@ bool ShaderProgram::loadShaders(const char* vsFilename, const char* fsFilename) 
 }
 
 void ShaderProgram::use() {
-  if (mHandle > 0) {
-    glUseProgram(mHandle);
+  if (mProgram > 0) {
+    glUseProgram(mProgram);
   }
 }
 
@@ -73,13 +73,13 @@ void ShaderProgram::checkCompileErrors(GLuint shader, ShaderType type) {
   int status = 0;
 
   if (type == PROGRAM) {
-    glGetProgramiv(mHandle, GL_LINK_STATUS, &status);
+    glGetProgramiv(mProgram, GL_LINK_STATUS, &status);
     if (status == GL_FALSE) {
       GLint length = 0;
-      glGetProgramiv(mHandle, GL_INFO_LOG_LENGTH, &length);
+      glGetProgramiv(mProgram, GL_INFO_LOG_LENGTH, &length);
 
       string errorLog(length, ' ');
-      glGetProgramInfoLog(mHandle, length, &length, &errorLog[0]);
+      glGetProgramInfoLog(mProgram, length, &length, &errorLog[0]);
 
       cerr << "Shader Program failed to link. " << errorLog << endl;
     }
