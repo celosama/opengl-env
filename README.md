@@ -7,10 +7,10 @@ dependency management and cross-platform building, for now...
 The build process is set to use the `cl.exe` compiler (msvc++, Windows only)
 and the build can be run with either `Make` or `nmake`.
 
-    `make` or `make build` 
+> `make` or `make build` 
 
 will build the executable and copy the `data` folder contents into the `./build` location
 
-    `make clean`
+> `make clean`
 
 will delete the `./build` directory
