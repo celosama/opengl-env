@@ -8,8 +8,12 @@
 #include "window.h"
 #include "events.h"
 #include "ShaderProgram.h"
+#include "Texture2D.h"
 
 using namespace std;
+
+const string texture1 = "data/airplane.png";
+const string texture2 = "data/crate.jpg";
 
 int main() {
   GLFWwindow* pWindow = createGLFWContext();
@@ -17,10 +21,11 @@ int main() {
   glfwSetKeyCallback(pWindow, onKey);
 
   GLfloat vertices[] = {
-    -0.5f,  0.5f, 0.0f,
-     0.5f,  0.5f, 0.0f,
-     0.5f, -0.5f, 0.0f,
-    -0.5f, -0.5f, 0.0f
+    // position           // tex coords
+    -0.5f,  0.5f, 0.0f,   0.0f, 1.0f, // top left
+     0.5f,  0.5f, 0.0f,   1.0f, 1.0f,  // top right
+     0.5f, -0.5f, 0.0f,   1.0f, 0.0f,  // bottom right
+    -0.5f, -0.5f, 0.0f,   0.0f, 0.0f  // bottom left
   };
 
   GLuint indices[] = {
@@ -38,8 +43,12 @@ int main() {
   glBindVertexArray(vao);
 
   // position
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), NULL);
   glEnableVertexAttribArray(0);
+
+  // tex coord
+  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLfloat*)(3 * sizeof(GLfloat)));
+  glEnableVertexAttribArray(1);
 
   glGenBuffers(1, &ibo);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
@@ -47,6 +56,9 @@ int main() {
 
   ShaderProgram shaderProgram;
   shaderProgram.loadShaders("data/basic_vert.glsl", "data/basic_frag.glsl");
+
+  Texture2D texture;
+  texture.loadTexture(texture1);
 
   // Main loop
   while (!glfwWindowShouldClose(pWindow)) {
@@ -56,6 +68,8 @@ int main() {
 
     glBindVertexArray(vao);
 
+    texture.bind();
+
     shaderProgram.use();
 
     GLfloat time = glfwGetTime();
@@ -63,9 +77,6 @@ int main() {
     glm::vec2 pos;
     pos.x = sin(time) / 2;
     pos.y = cos(time) / 2;
-
-    shaderProgram.setUniform("vertColor", glm::vec4(0.0f, 0.0f, blueColor, 1.0f));
-    shaderProgram.setUniform("posOffset", pos);
 
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
